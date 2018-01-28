@@ -1,0 +1,23 @@
+{
+  "name": "bamazon-app",
+  "version": "1.0.0",
+  "description": "Amazon-like storefront, powered by MySQL, Node JS, and Inquirer.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NKClem/bamazon-app.git"
+  },
+  "author": "Nicole K. Clements",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NKClem/bamazon-app/issues"
+  },
+  "homepage": "https://github.com/NKClem/bamazon-app#readme",
+  "dependencies": {
+    "inquirer": "^5.0.1",
+    "mysql": "^2.15.0"
+  }
+}
