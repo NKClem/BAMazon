@@ -58,11 +58,9 @@ function promptUserInput() {
 		let values = ['*', 'products', 'item_id', answers.item];
 		sql = mysql.format(sql, values);
 		connection.query(sql, function(err, results) {
-			//console.log(results);
-			//connection.end();
-			if (answers.itemQuantity <= results.stock_quantity) {
-				console.log('\nUpdating product... ... ...\n');
-				//run function to update database
+			if (answers.itemQuantity <= results[0].stock_quantity) {
+				console.log(`Updating all ${results[0].product_name} quantities... ... ...`);
+				connection.end();
 			} else {
 				console.log('\nNot enough in stock. \nPlease pick another item or another amount.\n');
 				promptUserInput();
