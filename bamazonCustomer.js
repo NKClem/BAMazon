@@ -26,17 +26,7 @@ function seeWhatIsAvailable() {
 		}
 	]).then(function(answers) {
 		if (answers.confirm) {
-			let sql = 'SELECT ?? FROM ??';
-			let values = ['*', 'products'];
-			sql = mysql.format(sql, values);
-
-			connection.query(sql, function(err, results, fields) {
-				if (err) throw err;
-				for (let i = 0; i < results.length; i++) {
-					console.log('\n' + results[i].item_id, results[i].product_name, results[i].price + '\n');
-				}
-				promptUserInput();
-			});
+			showAllProducts();
 		}
 	});
 }
@@ -66,5 +56,18 @@ function promptUserInput() {
 				promptUserInput();
 			}
 		});
+	});
+}
+
+function showAllProducts() {
+	let sql = 'SELECT ?? FROM ??';
+	let values = ['*', 'products'];
+	sql = mysql.format(sql, values);
+	connection.query(sql, function(err, results, fields) {
+		if (err) throw err;
+		for (let i = 0; i < results.length; i++) {
+			console.log('\n' + results[i].item_id, results[i].product_name, results[i].price + '\n');
+		}
+		promptUserInput();
 	});
 }
