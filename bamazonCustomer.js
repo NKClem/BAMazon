@@ -67,18 +67,28 @@ function promptUserInput() {
 		connection.query(sql, function(err, results) {
 			if (answers.itemQuantity <= results[0].stock_quantity) {
 				console.log('\nGreat choice!\n');
+				
+				//update database
+				let userQuantity = results[0].stock_quantity - answers.itemQuantity;
+				let query = connection.query(
+					'UPDATE products SET ? WHERE ?',
+						[
+							{
+								stock_quantity: userQuantity
+							},
+							{
+								item_id: results[0].item_id
+							}
+						],
+					function(err, results) {
+						console.log(`${results.affectedRows} product updated!`);
+						promptAgain();
+					}
+				);
+
 				//give user total 
 				userTotal = parseFloat((results[0].price * answers.itemQuantity).toFixed(2));
 				console.log(`Your total is $${userTotal}\n`);
-				//update database
-				let userQuantity = results[0].stock_quantity - answers.itemQuantity;
-				let sql = 'UPDATE ?? SET ? WHERE ?';
-				let values = ['products', userQuantity, results[0].stock_quantity];
-				sql = mysql.format(sql, values);
-				connection.query(sql, function(err, results, fields) {
-					if (err) throw err;
-					showAllProducts();
-				})
 				
 				//currentDept = results[0].department_name;
 				
@@ -101,6 +111,24 @@ function showAllProducts() {
 			console.log('\n' + results[i].item_id, results[i].product_name, results[i].price + '\n');
 		}
 		promptUserInput();
+	});
+}
+
+function promptAgain() {
+	inquirer.prompt([
+		{
+			type: 'confirm',
+			name: 'orderAgain',
+			message: 'Would you like to place another order?',
+			default: true
+		}
+	]).then(function(answers) {
+		if (answers.orderAgain) {
+			showAllProducts();
+		} else {
+			console.log('Hope to see you again! Have a BAM!-tabulous day!');
+			connection.end();
+		}
 	});
 }
 
