@@ -1,6 +1,10 @@
 const mysql = require('mysql');
 const inquirer = require('inquirer');
 
+let currentDept;
+let userTotal;
+
+
 const connection = mysql.createConnection({
 	host: 'localhost',
 	user: 'root',
@@ -15,8 +19,8 @@ connection.connect(function(err) {
 });
 
 function seeWhatIsAvailable() {
-	console.log('\n***  ***  ***  Welcome to Bamazon  ***  ***  ***\n');
-	console.log('Like Amazon (But less expensive.  We promise.)\n');
+	console.log('\n***  ***  ***  Welcome to BAM!-azon  ***  ***  ***\n');
+	console.log('Where you get more bang for your buck!\n');
 	inquirer.prompt([
 		{
 			type: 'confirm',
@@ -27,6 +31,9 @@ function seeWhatIsAvailable() {
 	]).then(function(answers) {
 		if (answers.confirm) {
 			showAllProducts();
+		} else {
+			console.log('\nHope to see you again soon! \n\nHave a BAM!ming day!\n');
+			connection.end();
 		}
 	});
 }
@@ -44,15 +51,15 @@ function promptUserInput() {
 			message: 'How many would you like to purchase?'
 		}
 	]).then(function(answers) {
-		let item = answers.item;
-		let itemQuantity = answers.itemQuantity;
 		let sql = 'SELECT ?? FROM ?? WHERE ?? = ?';
-		let values = ['*', 'products', 'item_id', item];
+		let values = ['*', 'products', 'item_id', answers.item];
 		sql = mysql.format(sql, values);
 		connection.query(sql, function(err, results) {
-			let results = results[0];
-			if (itemQuantity <= results.stock_quantity) {
-				console.log(`Updating all ${results.product_name} quantities... ... ...`);
+			if (answers.itemQuantity <= results[0].stock_quantity) {
+				console.log('\nGreat choice!\n')
+				userTotal = results[0].price * answers.itemQuantity;
+				currentDept = results[0].department_name;
+				console.log(`Your total is $${userTotal}\n`);
 				
 			} else {
 				console.log('\nNot enough in stock. \nPlease pick another item or another amount.\n');
@@ -75,6 +82,3 @@ function showAllProducts() {
 	});
 }
 
-function updateProduct(item, ) {
-	//conditional to compare 
-}
