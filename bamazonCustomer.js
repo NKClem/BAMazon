@@ -4,7 +4,7 @@ const inquirer = require('inquirer');
 const connection = mysql.createConnection({
 	host: 'localhost',
 	user: 'root',
-	password: 'pharley9',
+	password: '',
 	database: 'bamazon'
 });
 
@@ -33,24 +33,27 @@ function seeWhatIsAvailable() {
 
 function promptUserInput() {
 	inquirer.prompt([
-		{
+		{	//add function to validate that user input is a number
 			type: 'input',
 			name: 'item',
 			message: 'Which item would you like to view? Please select by ID number.'
 		},
-		{
+		{	//add function to validate that user input is a number
 			type: 'input',
 			name: 'itemQuantity',
 			message: 'How many would you like to purchase?'
 		}
 	]).then(function(answers) {
+		let item = answers.item;
+		let itemQuantity = answers.itemQuantity;
 		let sql = 'SELECT ?? FROM ?? WHERE ?? = ?';
-		let values = ['*', 'products', 'item_id', answers.item];
+		let values = ['*', 'products', 'item_id', item];
 		sql = mysql.format(sql, values);
 		connection.query(sql, function(err, results) {
-			if (answers.itemQuantity <= results[0].stock_quantity) {
-				console.log(`Updating all ${results[0].product_name} quantities... ... ...`);
-				connection.end();
+			let results = results[0];
+			if (itemQuantity <= results.stock_quantity) {
+				console.log(`Updating all ${results.product_name} quantities... ... ...`);
+				
 			} else {
 				console.log('\nNot enough in stock. \nPlease pick another item or another amount.\n');
 				promptUserInput();
@@ -70,4 +73,8 @@ function showAllProducts() {
 		}
 		promptUserInput();
 	});
+}
+
+function updateProduct(item, ) {
+	//conditional to compare 
 }
