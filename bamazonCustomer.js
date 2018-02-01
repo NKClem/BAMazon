@@ -43,7 +43,7 @@ function promptUserInput() {
 		{	//add function to validate that user input is a number
 			type: 'input',
 			name: 'item',
-			message: 'Which item would you like to view? Please select by ID number.',
+			message: 'Which item would you like to order? Please select by ID number.',
 			validate: function checkForIntegers(item) {
 						const reg = /^\d+$/;
 						return reg.test(item) || 'Please enter a numerical value for the ID.';
