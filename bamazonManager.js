@@ -34,6 +34,8 @@ function promptManager() {
 			viewLowInventory();
 		} else if (answers.managerList === 'Add to Inventory') {
 			viewInventoryAgain();
+		} else if (answers.managerList === 'Add New Product') {
+			addNewProduct();
 		}
 	});
 }
@@ -63,7 +65,7 @@ function viewProducts() {
 
 function viewLowInventory() {
 	console.log('\n  ***  ***  ***  ***  ***  \n');
-	console.log(' Current Low Inventory ');
+	console.log('Check Low Inventory Mode');
 	console.log('\n  ***  ***  ***  ***  ***  \n');
 	
 	let lowInventoryArr = [];
@@ -112,7 +114,7 @@ function viewInventoryAgain() {
 
 function addInventory() {
 	console.log('\n***  ***  ***  ***  ***\n');
-	console.log('  Updating Inventory  ');
+	console.log('Add to Inventory Mode');
 	console.log('\n***  ***  ***  ***  ***\n');
 
 	inquirer.prompt([
@@ -156,4 +158,55 @@ function addInventory() {
 		);
 		
 	});
+}
+
+function addNewProduct() {
+	console.log('\n***  ***  ***  ***  ***\n');
+	console.log('Create New Product Mode');
+	console.log('\n***  ***  ***  ***  ***\n');
+
+	inquirer.prompt([
+			{
+				type: 'input',
+				name: 'productName',
+				message: "What is the product's name?"
+			},
+
+			{
+				type: 'list',
+				name: 'productDept',
+				message: 'Which department does this product belong to?',
+				choices: ['Grocery', 'Beauty', 'Sports/Gear', 'Toys', 'Entertainment']
+			},
+
+			{
+				type: 'input',
+				name: 'productPrice',
+				message: 'What is the price of this product?'
+			},
+
+			{
+				type: 'input',
+				name: 'productQuantity',
+				message: 'How much of this product do we have in stock?',
+				validate: function checkForIntegers(item) {
+						const reg = /^\d+$/;
+						return reg.test(item) || 'Please enter a numerical value for inventory.';
+					}
+			}
+		]).then(function(answers) {
+			let query = connection.query(
+				'INSERT INTO products SET ?',
+					{
+						product_name: answers.productName,
+						department_name: answers.productDept,
+						price: answers.productPrice,
+						stock_quantity: answers.productQuantity
+					},
+					function(err, results) {
+						console.log(`\n${results.affectedRows} product created!\n`);
+						promptManager();
+					} 
+				);
+		});
 }
