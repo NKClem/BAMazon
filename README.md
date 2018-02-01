@@ -2,7 +2,7 @@
 Amazon-like storefront, powered by MySQL, Node JS, and Inquirer.
 
 
-# Description
+### Description
 
 An online storefront that queries a MySQL database for inventory and updates the database in real-time, based off of the user's input, utilizing the Inquirer NPM.
 
@@ -13,7 +13,7 @@ Functionality is handled by JavaScript and contained in two files:
 Each file can be called in the CLI using *node* followed by either *bamazonCustomer.js* or *bamazonManager.js*
 
 
-# Customer Side (*bamazonCustomer.js*)
+### Customer Side (*bamazonCustomer.js*)
 
 CLI asks the user if the user would like to view what is available at the store and make a purchase, then requests a yes or no confirmation.
 
@@ -26,7 +26,7 @@ CLI asks the user if the user would like to view what is available at the store 
 *If there is enough product in stock*, the app fulfills the user's purchase by updating the MySQL database and posing a purchase cost to the user.
 
 
-# Manager Side (*bamazonManager.js*)
+### Manager Side (*bamazonManager.js*)
 
 CLI greets the manager and gives the following options:
 
@@ -42,7 +42,7 @@ CLI greets the manager and gives the following options:
 
 
 
-# Technologies Used
+### Technologies Used
 
 JavaScript
 
@@ -57,6 +57,6 @@ Visual Studio Code
 Sublime Text 3
 
 
-# Video To Illustrate How To Use the App
+### Video To Illustrate How To Use the App
 
 [BAM!azon -- A Real-Time MySQL Store-Front (YouTube)] (https://youtu.be/wIhAOWZz8r0)
