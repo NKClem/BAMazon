@@ -25,7 +25,7 @@ function seeWhatIsAvailable() {
 		{
 			type: 'confirm',
 			name: 'confirm',
-			message: "Would you like to see what is in stock?",
+			message: "Would you like to see what we have in stock and place an order?",
 			default: true
 		}
 	]).then(function(answers) {
