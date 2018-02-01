@@ -108,7 +108,7 @@ function showAllProducts() {
 	connection.query(sql, function(err, results, fields) {
 		if (err) throw err;
 		for (let i = 0; i < results.length; i++) {
-			console.log('\n' + results[i].item_id, results[i].product_name, results[i].price + '\n');
+			console.log(` \nItem ID: ${results[i].item_id}     Name: ${results[i].product_name}     Price: ${results[i].price} \n-------------------------------------------------------------------------------------- \n`);
 		}
 		promptUserInput();
 	});
